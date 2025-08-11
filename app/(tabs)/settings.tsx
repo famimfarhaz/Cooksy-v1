@@ -170,14 +170,28 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#f8fafc',
   },
   scrollView: {
     flex: 1,
   },
   header: {
-    padding: 24,
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    paddingBottom: 32,
     alignItems: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
   titleContainer: {
     flexDirection: 'row',
@@ -185,25 +199,44 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: '700',
+    fontFamily: 'Inter-Bold',
     color: '#1f2937',
     marginLeft: 8,
+    letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 17,
+    fontFamily: 'Inter-Regular',
     color: '#6b7280',
     textAlign: 'center',
+    marginTop: 4,
   },
   section: {
-    paddingHorizontal: 24,
+    backgroundColor: '#ffffff',
+    marginHorizontal: 20,
     marginBottom: 24,
+    borderRadius: 20,
+    padding: 24,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.08,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 6,
+      },
+    }),
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
     color: '#374151',
-    marginBottom: 12,
+    marginBottom: 16,
   },
   avatarContainer: {
     flexDirection: 'row',
@@ -212,13 +245,13 @@ const styles = StyleSheet.create({
   },
   avatarOption: {
     padding: 8,
-    borderRadius: 16,
+    borderRadius: 20,
     borderWidth: 2,
     borderColor: 'transparent',
   },
   selectedAvatar: {
     borderColor: '#2563eb',
-    backgroundColor: '#eff6ff',
+    backgroundColor: '#f0f9ff',
   },
   avatarImage: {
     width: 64,
@@ -226,13 +259,25 @@ const styles = StyleSheet.create({
     borderRadius: 32,
   },
   textInput: {
-    backgroundColor: '#f9fafb',
-    borderRadius: 12,
+    backgroundColor: '#f8fafc',
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
-    padding: 16,
+    borderColor: '#e2e8f0',
+    padding: 18,
     fontSize: 16,
+    fontFamily: 'Inter-Regular',
     color: '#1f2937',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 1,
+      },
+    }),
   },
   bioInput: {
     minHeight: 100,
@@ -240,6 +285,7 @@ const styles = StyleSheet.create({
   },
   usageText: {
     fontSize: 14,
+    fontFamily: 'Inter-Regular',
     color: '#6b7280',
     textAlign: 'center',
     marginTop: 8,
@@ -255,32 +301,47 @@ const styles = StyleSheet.create({
   limitReachedText: {
     color: '#dc2626',
     fontSize: 14,
+    fontFamily: 'Inter-Medium',
     textAlign: 'center',
     fontWeight: '500',
   },
   saveButton: {
+    background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)',
     backgroundColor: '#2563eb',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 16,
+    paddingVertical: 18,
     paddingHorizontal: 24,
-    borderRadius: 12,
-    marginHorizontal: 24,
+    borderRadius: 16,
+    marginHorizontal: 20,
     marginBottom: 16,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#2563eb',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 8,
+      },
+    }),
   },
   saveButtonText: {
     color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 15,
+    fontWeight: '700',
+    fontFamily: 'Inter-Bold',
     marginLeft: 8,
+    letterSpacing: 0.5,
   },
   resetButton: {
     backgroundColor: '#dc2626',
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 8,
-    marginHorizontal: 24,
+    borderRadius: 12,
+    marginHorizontal: 20,
     marginBottom: 24,
   },
   resetButtonText: {
@@ -290,8 +351,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   footer: {
-    paddingHorizontal: 24,
-    paddingBottom: 32,
+    paddingHorizontal: 20,
+    paddingBottom: 120,
     alignItems: 'center',
   },
   creditContainer: {
@@ -305,7 +366,7 @@ const styles = StyleSheet.create({
   creditText: {
     color: '#ffffff',
     fontSize: 12,
-    fontFamily: 'monospace',
+    fontFamily: 'Inter-Regular',
     fontWeight: '400',
   },
 });

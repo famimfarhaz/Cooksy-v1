@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -178,45 +179,78 @@ export default function RecipeDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#f8fafc',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f3f4f6',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    backgroundColor: '#ffffff',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
   backButton: {
-    padding: 8,
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: '#f8fafc',
   },
   bookmarkButton: {
-    padding: 8,
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: '#f8fafc',
   },
   scrollView: {
     flex: 1,
   },
   recipeImage: {
     width: '100%',
-    height: 240,
+    height: 280,
     backgroundColor: '#f3f4f6',
   },
   content: {
-    padding: 24,
+    backgroundColor: '#ffffff',
+    marginHorizontal: 20,
+    marginTop: -20,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    padding: 28,
+    marginBottom: 20,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: -2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 8,
+      },
+    }),
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: '700',
+    fontFamily: 'Inter-Bold',
     color: '#1f2937',
-    marginBottom: 16,
-    lineHeight: 32,
+    marginBottom: 20,
+    lineHeight: 34,
+    letterSpacing: -0.5,
   },
   metaContainer: {
     flexDirection: 'row',
-    marginBottom: 24,
-    gap: 16,
+    marginBottom: 32,
+    gap: 20,
   },
   metaItem: {
     flexDirection: 'row',
@@ -225,50 +259,67 @@ const styles = StyleSheet.create({
   },
   metaText: {
     fontSize: 14,
+    fontFamily: 'Inter-Medium',
     color: '#6b7280',
     fontWeight: '500',
   },
   section: {
-    marginBottom: 32,
+    marginBottom: 36,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
     color: '#1f2937',
-    marginBottom: 16,
+    marginBottom: 20,
+    letterSpacing: -0.3,
   },
   ingredientItem: {
-    marginBottom: 8,
+    marginBottom: 12,
   },
   ingredientText: {
     fontSize: 16,
+    fontFamily: 'Inter-Regular',
     color: '#374151',
-    lineHeight: 24,
+    lineHeight: 26,
   },
   instructionItem: {
     flexDirection: 'row',
-    marginBottom: 16,
-    gap: 12,
+    marginBottom: 20,
+    gap: 16,
   },
   stepNumber: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     backgroundColor: '#2563eb',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 2,
+    marginTop: 4,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#2563eb',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
   stepNumberText: {
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
   },
   instructionText: {
     flex: 1,
     fontSize: 16,
+    fontFamily: 'Inter-Regular',
     color: '#374151',
-    lineHeight: 24,
+    lineHeight: 26,
   },
   loadingContainer: {
     flex: 1,
@@ -277,6 +328,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     fontSize: 16,
+    fontFamily: 'Inter-Regular',
     color: '#6b7280',
   },
   errorContainer: {
@@ -286,6 +338,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 16,
+    fontFamily: 'Inter-Medium',
     color: '#dc2626',
   },
 });

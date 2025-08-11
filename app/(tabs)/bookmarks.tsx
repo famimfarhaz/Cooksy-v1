@@ -68,14 +68,28 @@ export default function BookmarksScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#f8fafc',
   },
   scrollView: {
     flex: 1,
   },
   header: {
-    padding: 24,
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    paddingBottom: 32,
     alignItems: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
   titleContainer: {
     flexDirection: 'row',
@@ -83,15 +97,19 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: '700',
+    fontFamily: 'Inter-Bold',
     color: '#1f2937',
     marginLeft: 8,
+    letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 17,
+    fontFamily: 'Inter-Regular',
     color: '#6b7280',
     textAlign: 'center',
+    marginTop: 4,
   },
   emptyState: {
     alignItems: 'center',
@@ -101,17 +119,20 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 20,
     fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
     color: '#374151',
     marginTop: 16,
     marginBottom: 8,
   },
   emptySubtitle: {
     fontSize: 16,
+    fontFamily: 'Inter-Regular',
     color: '#6b7280',
     textAlign: 'center',
     lineHeight: 24,
   },
   resultsSection: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
+    paddingBottom: 100,
   },
 });

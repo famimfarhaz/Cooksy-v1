@@ -6,8 +6,9 @@ import {
   StyleSheet,
   Modal,
   ScrollView,
+  Platform,
 } from 'react-native';
-import { ChevronDown } from 'lucide-react-native';
+import { ChevronDown, Globe } from 'lucide-react-native';
 
 const CUISINES = [
   { value: '', label: 'Any Cuisine' },
@@ -45,7 +46,10 @@ export function CuisineSelector({ selectedCuisine, onCuisineSelect }: CuisineSel
         style={styles.selector}
         onPress={() => setIsModalVisible(true)}
       >
-        <Text style={styles.selectedText}>{selectedLabel}</Text>
+        <View style={styles.selectorContent}>
+          <Globe size={18} color="#6b7280" />
+          <Text style={styles.selectedText}>{selectedLabel}</Text>
+        </View>
         <ChevronDown size={20} color="#6b7280" />
       </TouchableOpacity>
 
@@ -97,19 +101,36 @@ export function CuisineSelector({ selectedCuisine, onCuisineSelect }: CuisineSel
 
 const styles = StyleSheet.create({
   selector: {
-    backgroundColor: '#f9fafb',
-    borderRadius: 12,
+    backgroundColor: '#f8fafc',
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
-    padding: 16,
+    borderColor: '#e2e8f0',
+    padding: 18,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 1,
+      },
+    }),
+  },
+  selectorContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
   selectedText: {
     fontSize: 16,
+    fontFamily: 'Inter-Medium',
     color: '#1f2937',
-    fontWeight: '500',
+    marginLeft: 10,
   },
   modalOverlay: {
     flex: 1,
@@ -133,6 +154,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
     color: '#1f2937',
   },
   closeButton: {
@@ -143,6 +165,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#2563eb',
     fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
   },
   optionsList: {
     padding: 20,
@@ -158,10 +181,12 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 16,
+    fontFamily: 'Inter-Regular',
     color: '#374151',
   },
   selectedOptionText: {
     color: '#2563eb',
     fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
   },
 });

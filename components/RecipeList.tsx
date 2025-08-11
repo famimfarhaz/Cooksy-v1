@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  Platform,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Clock, Users } from 'lucide-react-native';
@@ -90,47 +91,53 @@ export function RecipeList({ recipes, loading, onBookmarkChange }: RecipeListPro
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 24,
+    marginBottom: 100,
   },
   resultsTitle: {
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
     color: '#1f2937',
-    marginBottom: 16,
+    marginBottom: 20,
+    marginLeft: 4,
   },
   recipeCard: {
     backgroundColor: '#ffffff',
-    borderRadius: 12,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderRadius: 20,
+    marginBottom: 20,
     overflow: 'hidden',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.08,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 6,
+      },
+    }),
   },
   recipeImage: {
     width: '100%',
-    height: 160,
+    height: 180,
     backgroundColor: '#f3f4f6',
   },
   recipeContent: {
-    padding: 16,
+    padding: 20,
   },
   recipeTitle: {
-    fontSize: 18,
+    fontSize: 19,
     fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
     color: '#1f2937',
-    marginBottom: 8,
-    lineHeight: 24,
+    marginBottom: 12,
+    lineHeight: 26,
   },
   metaContainer: {
     flexDirection: 'row',
-    gap: 16,
-    marginBottom: 8,
+    gap: 20,
+    marginBottom: 10,
   },
   metaItem: {
     flexDirection: 'row',
@@ -139,13 +146,16 @@ const styles = StyleSheet.create({
   },
   metaText: {
     fontSize: 14,
+    fontFamily: 'Inter-Medium',
     color: '#6b7280',
     fontWeight: '500',
   },
   ingredientMatch: {
     fontSize: 14,
+    fontFamily: 'Inter-Medium',
     color: '#059669',
     fontWeight: '500',
+    marginTop: 4,
   },
   loadingContainer: {
     alignItems: 'center',
@@ -153,6 +163,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     fontSize: 16,
+    fontFamily: 'Inter-Regular',
     color: '#6b7280',
   },
   emptyContainer: {
@@ -162,11 +173,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
     color: '#374151',
     marginBottom: 8,
   },
   emptySubtitle: {
     fontSize: 16,
+    fontFamily: 'Inter-Regular',
     color: '#6b7280',
     textAlign: 'center',
     lineHeight: 24,

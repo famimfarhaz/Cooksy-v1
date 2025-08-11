@@ -7,9 +7,10 @@ import {
   ScrollView,
   StyleSheet,
   Alert,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Search, ChefHat } from 'lucide-react-native';
+import { Search, ChefHat, X } from 'lucide-react-native';
 import { CuisineSelector } from '@/components/CuisineSelector';
 import { RecipeList } from '@/components/RecipeList';
 import { requestLimitService } from '@/services/requestLimitService';
@@ -69,39 +70,49 @@ export default function HomeScreen() {
           </Text>
         </View>
 
-        <View style={styles.inputSection}>
-          <Text style={styles.label}>What ingredients do you have?</Text>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Enter ingredients (e.g., chicken, rice, tomatoes)"
-              value={ingredients}
-              onChangeText={setIngredients}
-              multiline
-              numberOfLines={3}
-              placeholderTextColor="#9ca3af"
+        <View style={styles.formContainer}>
+          <View style={styles.inputSection}>
+            <Text style={styles.label}>What ingredients do you have?</Text>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Enter ingredients (e.g., chicken, rice, tomatoes)"
+                value={ingredients}
+                onChangeText={setIngredients}
+                multiline
+                numberOfLines={3}
+                placeholderTextColor="#9ca3af"
+              />
+              {ingredients.length > 0 && (
+                <TouchableOpacity
+                  style={styles.clearButton}
+                  onPress={() => setIngredients('')}
+                >
+                  <X size={16} color="#6b7280" />
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+
+          <View style={styles.cuisineSection}>
+            <Text style={styles.label}>Preferred Cuisine</Text>
+            <CuisineSelector
+              selectedCuisine={selectedCuisine}
+              onCuisineSelect={setSelectedCuisine}
             />
           </View>
-        </View>
 
-        <View style={styles.cuisineSection}>
-          <Text style={styles.label}>Preferred Cuisine</Text>
-          <CuisineSelector
-            selectedCuisine={selectedCuisine}
-            onCuisineSelect={setSelectedCuisine}
-          />
+          <TouchableOpacity
+            style={[styles.searchButton, loading && styles.searchButtonDisabled]}
+            onPress={handleSearch}
+            disabled={loading}
+          >
+            <Search size={20} color="#ffffff" />
+            <Text style={styles.searchButtonText}>
+              {loading ? 'SEARCHING...' : 'FIND RECIPES'}
+            </Text>
+          </TouchableOpacity>
         </View>
-
-        <TouchableOpacity
-          style={[styles.searchButton, loading && styles.searchButtonDisabled]}
-          onPress={handleSearch}
-          disabled={loading}
-        >
-          <Search size={20} color="#ffffff" />
-          <Text style={styles.searchButtonText}>
-            {loading ? 'Searching...' : 'Find Recipes'}
-          </Text>
-        </TouchableOpacity>
 
         {hasSearched && (
           <View style={styles.resultsSection}>
@@ -116,14 +127,28 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#f8fafc',
   },
   scrollView: {
     flex: 1,
   },
   header: {
-    padding: 24,
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    paddingBottom: 32,
     alignItems: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
   titleContainer: {
     flexDirection: 'row',
@@ -131,64 +156,127 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: '700',
+    fontFamily: 'Inter-Bold',
     color: '#1f2937',
     marginLeft: 8,
+    letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 17,
+    fontFamily: 'Inter-Regular',
     color: '#6b7280',
     textAlign: 'center',
+    marginTop: 4,
+  },
+  formContainer: {
+    backgroundColor: '#ffffff',
+    marginHorizontal: 20,
+    marginTop: 24,
+    borderRadius: 20,
+    padding: 24,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.08,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 6,
+      },
+    }),
   },
   inputSection: {
-    paddingHorizontal: 24,
     marginBottom: 24,
   },
   label: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
     color: '#374151',
-    marginBottom: 8,
+    marginBottom: 12,
   },
   inputContainer: {
-    backgroundColor: '#f9fafb',
-    borderRadius: 12,
+    backgroundColor: '#f8fafc',
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: '#e2e8f0',
+    position: 'relative',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 1,
+      },
+    }),
   },
   textInput: {
-    padding: 16,
+    padding: 18,
     fontSize: 16,
+    fontFamily: 'Inter-Regular',
     color: '#1f2937',
     minHeight: 80,
     textAlignVertical: 'top',
   },
+  clearButton: {
+    position: 'absolute',
+    right: 12,
+    top: 12,
+    padding: 8,
+    borderRadius: 12,
+    backgroundColor: '#f1f5f9',
+  },
   cuisineSection: {
-    paddingHorizontal: 24,
     marginBottom: 24,
   },
   searchButton: {
+    background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)',
     backgroundColor: '#2563eb',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 16,
+    paddingVertical: 18,
     paddingHorizontal: 24,
-    borderRadius: 12,
-    marginHorizontal: 24,
-    marginBottom: 24,
+    borderRadius: 16,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#2563eb',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 8,
+      },
+    }),
   },
   searchButtonDisabled: {
-    backgroundColor: '#9ca3af',
+    backgroundColor: '#cbd5e1',
+    ...Platform.select({
+      ios: {
+        shadowOpacity: 0.1,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
   searchButtonText: {
     color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 15,
+    fontWeight: '700',
+    fontFamily: 'Inter-Bold',
     marginLeft: 8,
+    letterSpacing: 0.5,
   },
   resultsSection: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
+    paddingTop: 24,
   },
 });

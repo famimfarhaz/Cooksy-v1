@@ -7,18 +7,34 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#ffffff',
-          borderTopWidth: 1,
-          borderTopColor: '#f3f4f6',
-          paddingBottom: 8,
-          paddingTop: 8,
-          height: 60,
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+          borderTopWidth: 0,
+          paddingBottom: 12,
+          paddingTop: 12,
+          height: 70,
+          position: 'absolute',
+          borderRadius: 20,
+          marginHorizontal: 20,
+          marginBottom: 20,
+          ...Platform.select({
+            ios: {
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: -2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 12,
+            },
+            android: {
+              elevation: 8,
+            },
+          }),
         },
         tabBarActiveTintColor: '#2563eb',
         tabBarInactiveTintColor: '#6b7280',
         tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '500',
+          fontSize: 11,
+          fontWeight: '600',
+          fontFamily: 'Inter-SemiBold',
+          marginTop: 4,
         },
       }}>
       <Tabs.Screen
