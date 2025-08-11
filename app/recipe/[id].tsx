@@ -25,10 +25,15 @@ export default function RecipeDetailScreen() {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
     if (id) {
       loadRecipe();
       checkBookmarkStatus();
     }
+    
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   const loadRecipe = async () => {
@@ -44,20 +49,26 @@ export default function RecipeDetailScreen() {
       }
 
       const recipeDetail = await spoonacularService.getRecipeDetail(Number(id));
-      setRecipe(recipeDetail);
+      if (isMounted) {
+        setRecipe(recipeDetail);
+      }
       await requestLimitService.incrementRequestCount();
     } catch (error) {
       Alert.alert('Error', 'Failed to load recipe details');
       console.error('Recipe detail error:', error);
     } finally {
-      setLoading(false);
+      if (isMounted) {
+        setLoading(false);
+      }
     }
   };
 
   const checkBookmarkStatus = async () => {
     try {
       const bookmarked = await bookmarkService.isBookmarked(Number(id));
-      setIsBookmarked(bookmarked);
+      if (isMounted) {
+        setIsBookmarked(bookmarked);
+      }
     } catch (error) {
       console.error('Error checking bookmark status:', error);
     }

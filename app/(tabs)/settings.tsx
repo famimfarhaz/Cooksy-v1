@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Image,
   Alert,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Settings as SettingsIcon, User } from 'lucide-react-native';
@@ -28,16 +29,23 @@ export default function SettingsScreen() {
   const [requestCount, setRequestCount] = useState(0);
 
   useEffect(() => {
+    let isMounted = true;
     loadSettings();
     loadRequestCount();
+    
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const loadSettings = async () => {
     try {
       const settings = await settingsService.getSettings();
-      setDisplayName(settings.displayName);
-      setBio(settings.bio);
-      setSelectedAvatar(settings.selectedAvatar);
+      if (isMounted) {
+        setDisplayName(settings.displayName);
+        setBio(settings.bio);
+        setSelectedAvatar(settings.selectedAvatar);
+      }
     } catch (error) {
       console.error('Error loading settings:', error);
     }
@@ -46,7 +54,9 @@ export default function SettingsScreen() {
   const loadRequestCount = async () => {
     try {
       const count = await requestLimitService.getTodayRequestCount();
-      setRequestCount(count);
+      if (isMounted) {
+        setRequestCount(count);
+      }
     } catch (error) {
       console.error('Error loading request count:', error);
     }

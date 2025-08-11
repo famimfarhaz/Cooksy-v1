@@ -4,6 +4,7 @@ import {
   Text,
   ScrollView,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Bookmark } from 'lucide-react-native';
@@ -16,17 +17,26 @@ export default function BookmarksScreen() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
     loadBookmarks();
+    
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const loadBookmarks = async () => {
     try {
       const bookmarks = await bookmarkService.getBookmarks();
-      setBookmarkedRecipes(bookmarks);
+      if (isMounted) {
+        setBookmarkedRecipes(bookmarks);
+      }
     } catch (error) {
       console.error('Error loading bookmarks:', error);
     } finally {
-      setLoading(false);
+      if (isMounted) {
+        setLoading(false);
+      }
     }
   };
 
