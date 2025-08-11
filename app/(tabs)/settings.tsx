@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Settings as SettingsIcon, User } from 'lucide-react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { ProgressBar } from '@/components/ProgressBar';
 import { settingsService } from '@/services/settingsService';
 import { requestLimitService } from '@/services/requestLimitService';
@@ -157,8 +158,15 @@ export default function SettingsScreen() {
         </View>
 
         <TouchableOpacity style={styles.saveButton} onPress={saveSettings}>
-          <User size={20} color="#ffffff" />
-          <Text style={styles.saveButtonText}>Save Settings</Text>
+          <LinearGradient
+            colors={['#2563eb', '#3b82f6']}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.gradientButton}
+          >
+            <User size={20} color="#ffffff" />
+            <Text style={styles.saveButtonText}>Save Settings</Text>
+          </LinearGradient>
         </TouchableOpacity>
 
         {__DEV__ && (
@@ -316,14 +324,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   saveButton: {
-    background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)',
-    backgroundColor: '#2563eb',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 18,
-    paddingHorizontal: 24,
-    borderRadius: 16,
     marginHorizontal: 20,
     marginBottom: 16,
     ...Platform.select({
@@ -337,6 +337,14 @@ const styles = StyleSheet.create({
         elevation: 8,
       },
     }),
+  },
+  gradientButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 18,
+    paddingHorizontal: 24,
+    borderRadius: 16,
   },
   saveButtonText: {
     color: '#ffffff',

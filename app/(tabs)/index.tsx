@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Search, ChefHat, X } from 'lucide-react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { CuisineSelector } from '@/components/CuisineSelector';
 import { RecipeList } from '@/components/RecipeList';
 import { requestLimitService } from '@/services/requestLimitService';
@@ -107,10 +108,17 @@ export default function HomeScreen() {
             onPress={handleSearch}
             disabled={loading}
           >
-            <Search size={20} color="#ffffff" />
-            <Text style={styles.searchButtonText}>
-              {loading ? 'SEARCHING...' : 'FIND RECIPES'}
-            </Text>
+            <LinearGradient
+              colors={loading ? ['#cbd5e1', '#cbd5e1'] : ['#2563eb', '#3b82f6']}
+              start={{ x: 0, y: 1 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.gradientButton}
+            >
+              <Search size={20} color="#ffffff" />
+              <Text style={styles.searchButtonText}>
+                {loading ? 'SEARCHING...' : 'FIND RECIPES'}
+              </Text>
+            </LinearGradient>
           </TouchableOpacity>
         </View>
 
@@ -236,14 +244,6 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   searchButton: {
-    background: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)',
-    backgroundColor: '#2563eb',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 18,
-    paddingHorizontal: 24,
-    borderRadius: 16,
     ...Platform.select({
       ios: {
         shadowColor: '#2563eb',
@@ -256,8 +256,15 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  gradientButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 18,
+    paddingHorizontal: 24,
+    borderRadius: 16,
+  },
   searchButtonDisabled: {
-    backgroundColor: '#cbd5e1',
     ...Platform.select({
       ios: {
         shadowOpacity: 0.1,
